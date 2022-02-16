@@ -51,9 +51,9 @@
   $.getJSON("Municipal_Boundaries_of_NJ.geojson",function(munidata){
     geoLayer = L.geoJson(munidata, {onEachFeature: onEachFeature}).addTo(map);
     map.fitBounds(geoLayer.getBounds());
+    var muniLayers = {"Municipalities": geoLayer};
+    L.control.layers(null, muniLayers, {collapsed: false}).setPosition('topleft').addTo(map);
   });
-  //var muniLayers = {"Municipalities": geoLayer};
-  //L.control.layers(null, muniLayers, {collapsed: false}).setPosition ('topleft').addTo(map);
 
   // Change marker icon
   //L.Icon.Default.prototype.options.iconUrl = 'marker-icon-red.png';
@@ -63,7 +63,6 @@
   //  shadowUrl: "marker-shadow.png"});
 
   // Read markers data from data.csv
-  //$.get("olt.csv", function(csvString) {
   $.get("olt.csv?" + new Date().getTime(), function(csvString) {
 
     // Use PapaParse to convert string to array of objects
@@ -78,7 +77,6 @@
         marker.addTo(map);
       }
     }
-
   });
 
   map.attributionControl.setPrefix(
