@@ -30,8 +30,6 @@
 
   // Set up initial map center and zoom level
   var map = L.map('map', {
-    center: [40.75, -74.5], // EDIT latitude, longitude to re-center map
-    zoom: 11,  // EDIT from 1 to 18 -- decrease to zoom out, increase to zoom in
     scrollWheelZoom: true,
     tap: false
   });
@@ -52,6 +50,7 @@
   var geoLayer;
   $.getJSON("Municipal_Boundaries_of_NJ.geojson",function(munidata){
     geoLayer = L.geoJson(munidata, {onEachFeature: onEachFeature}).addTo(map);
+    map.fitBounds(geoLayer.getBounds());
   });
   //var muniLayers = {"Municipalities": geoLayer};
   //L.control.layers(null, muniLayers, {collapsed: false}).setPosition ('topleft').addTo(map);
