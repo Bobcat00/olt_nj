@@ -42,25 +42,28 @@
 
   // load GeoJSON file
   function onEachFeature(feature, layer) {
-    // does this feature have a property named NAME?
     if (feature.properties && feature.properties.NAME) {
       layer.bindPopup(feature.properties.NAME);
     }
   }
-  var geoLayer;
   $.getJSON("Municipal_Boundaries_of_NJ.geojson",function(munidata){
-    geoLayer = L.geoJson(munidata, {onEachFeature: onEachFeature}).addTo(map);
+    var geoLayer = L.geoJson(munidata, {onEachFeature: onEachFeature}).addTo(map);
     map.fitBounds(geoLayer.getBounds());
     var muniLayers = {"Municipalities": geoLayer};
     L.control.layers(null, muniLayers, {collapsed: false}).setPosition('topleft').addTo(map);
   });
 
   // Change marker icon
-  //L.Icon.Default.prototype.options.iconUrl = 'marker-icon-red.png';
-  //L.Icon.Default.prototype.options.shadowUrl = 'marker-shadow.png';
-  //L.Icon.Default.prototype.options = L.Icon({
-  //  iconUrl: "marker-icon-red.png",
-  //  shadowUrl: "marker-shadow.png"});
+  L.Marker.prototype.options.icon = L.icon({
+    iconUrl:       'marker-icon-red.png',
+    iconRetinaUrl: 'marker-icon-2x-red.png',
+    shadowUrl:     'marker-shadow.png',
+    iconSize:      [25, 41],
+    iconAnchor:    [12, 41],
+    popupAnchor:   [1, -34],
+    tooltipAnchor: [16, -28],
+    shadowSize:    [41, 41]
+  });
 
   // Read markers data from data.csv
   $.get("olt.csv?" + new Date().getTime(), function(csvString) {
