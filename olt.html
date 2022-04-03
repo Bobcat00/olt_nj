@@ -65,8 +65,18 @@
     shadowSize:    [41, 41]
   });
 
-  // Read markers data from data.csv
+  var controlLayers = L.control.layers( null, null, {
+    position: 'topleft',
+    collapsed: false
+  }).addTo(map);
+
+  // Read markers data from olt.csv
   $.get("olt.csv?" + new Date().getTime(), function(csvString) {
+
+    // Create new layerGroup
+    var layerGroup = new L.LayerGroup().addTo(map);
+    // Add layerGroup to layerControl
+    controlLayers.addOverlay(layerGroup, 'OLTs');
 
     // Use PapaParse to convert string to array of objects
     var data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
@@ -77,7 +87,7 @@
       var row = data[i];
       if (row.Latitude != null && row.Longitude != null) {
         var marker = L.marker([row.Latitude, row.Longitude]).bindPopup(row.Title);
-        marker.addTo(map);
+        marker.addTo(layerGroup);
       }
     }
   });
