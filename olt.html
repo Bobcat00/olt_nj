@@ -75,21 +75,24 @@
 
     // Create new layerGroup
     var layerGroup = new L.LayerGroup().addTo(map);
-    // Add layerGroup to layerControl
-    controlLayers.addOverlay(layerGroup, 'OLTs');
 
     // Use PapaParse to convert string to array of objects
     var data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
 
     // For each row in data, create a marker and add it to the map
     // For each row, columns `Latitude`, `Longitude`, and `Title` are required
+    var oltCount = 0;
     for (var i in data) {
       var row = data[i];
       if (row.Latitude != null && row.Longitude != null) {
         var marker = L.marker([row.Latitude, row.Longitude]).bindPopup(row.Title);
         marker.addTo(layerGroup);
+        oltCount++;
       }
     }
+
+    // Add layerGroup to layerControl
+    controlLayers.addOverlay(layerGroup, 'OLTs (' + oltCount + ')');
   });
 
   map.attributionControl.setPrefix(
