@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Altice OLTs</title>
+  <title>Map of Altice / Cablevision / Optimum OLT locations</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
 
@@ -85,7 +85,9 @@
     for (var i in data) {
       var row = data[i];
       if (row.Latitude != null && row.Longitude != null) {
-        var marker = L.marker([row.Latitude, row.Longitude]).bindPopup(row.Title);
+        var marker = L.marker([row.Latitude, row.Longitude]).bindPopup(row.Title +
+          '<BR /><A HREF="https://www.google.com/maps/search/?api=1&query=' + row.Latitude + '%2C' + row.Longitude + '" TARGET="_blank">' +
+          row.Latitude + ', ' + row.Longitude + '</A>');
         marker.addTo(layerGroup);
         oltCount++;
       }
