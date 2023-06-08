@@ -44,6 +44,11 @@
   function onEachFeature(feature, layer) {
     if (feature.properties && feature.properties.NAME) {
       layer.bindPopup(feature.properties.NAME);
+      if (feature.properties.NAME.endsWith(" PA")) {
+        // layer.setStyle({color: '#33CCFF'}); // Aqua
+        // layer.setStyle({color: '#BB0022'}); // Red
+        layer.setStyle({color: '#00AA00'}); // Green
+      }
     }
   }
   $.getJSON("Municipal_Boundaries_of_NJ.geojson",function(munidata){
